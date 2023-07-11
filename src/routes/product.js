@@ -30,6 +30,10 @@ router.post("/products", authMiddleware, async (req, res) => {
 
 // Get a specific product
 router.get("/products/:id", authMiddleware, async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ error: "Missing params." });
+  }
+
   try {
     const product = await Product.findById(req.params.id);
     if (product) {
@@ -46,6 +50,10 @@ router.get("/products/:id", authMiddleware, async (req, res) => {
 
 // Update a product
 router.put("/products/:id", authMiddleware, async (req, res) => {
+  if (!req.params.id || !req.body) {
+    return res.status(400).json({ error: "Missing params." });
+  }
+
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -64,6 +72,10 @@ router.put("/products/:id", authMiddleware, async (req, res) => {
 
 // Delete a product
 router.delete("/products/:id", authMiddleware, async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ error: "Missing params." });
+  }
+
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (product) {

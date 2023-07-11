@@ -10,6 +10,10 @@ router.post("/signup", async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    if (!username || !password) {
+      return res.status(400).json({ error: "Missing params." });
+    }
+
     // Check if the user already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
@@ -31,6 +35,10 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: "Missing params." });
+    }
 
     // Find the user in the database
     const user = await User.findOne({ username });
@@ -60,6 +68,10 @@ router.get("/refresh-token", authMiddleware, async (req, res) => {
   try {
     // Get the user information
     const user = req.user;
+
+    if (!user) {
+      return res.status(400).json({ error: "Missing params." });
+    }
 
     // Create a new JWT and send it to the user
     const newToken = jwt.sign({ userId: user._id }, "jwt_secret_key", {

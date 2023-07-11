@@ -30,6 +30,10 @@ router.post("/categories", authMiddleware, async (req, res) => {
 
 // Get a specific category
 router.get("/categories/:id", authMiddleware, async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ error: "Missing params." });
+  }
+
   try {
     const category = await Category.findById(req.params.id);
     if (category) {
@@ -46,6 +50,10 @@ router.get("/categories/:id", authMiddleware, async (req, res) => {
 
 // Update a category
 router.put("/categories/:id", authMiddleware, async (req, res) => {
+  if (!req.params.id || !req.body) {
+    return res.status(400).json({ error: "Missing params." });
+  }
+
   try {
     const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -64,6 +72,10 @@ router.put("/categories/:id", authMiddleware, async (req, res) => {
 
 // Delete a category
 router.delete("/categories/:id", authMiddleware, async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ error: "Missing params." });
+  }
+
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (category) {

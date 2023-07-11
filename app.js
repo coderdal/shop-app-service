@@ -5,8 +5,12 @@ const mongoose = require("mongoose");
 const productRoutes = require("./src/routes/product");
 const categoryRoutes = require("./src/routes/category");
 const authRoutes = require("./src/routes/auth");
+const cors = require("cors");
 
 const app = express();
+
+// CORS middleware
+app.use(cors());
 
 app.use(bodyParser.json());
 
