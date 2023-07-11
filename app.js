@@ -1,11 +1,13 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-require("dotenv").config();
-
-console.log(process.env.USER_NAME);
+const productRoutes = require("./src/routes/product");
+const categoryRoutes = require("./src/routes/category");
+const authRoutes = require("./src/routes/auth");
 
 const app = express();
+
 app.use(bodyParser.json());
 
 mongoose.connect(
@@ -16,10 +18,21 @@ mongoose.connect(
   }
 );
 
+// Routes
+app.use(productRoutes);
+app.use(categoryRoutes);
+app.use("/auth", authRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
 mongoose.connection.on("connected", () => {
-  console.log("MongoDB bağlantısı başarılı.");
+  console.log("Connected to MongoDB.");
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`Sunucu ${process.env.PORT} portunda çalışıyor.`);
+  console.log(`Server runs at ${process.env.PORT} port.`);
 });
