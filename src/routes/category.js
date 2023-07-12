@@ -4,7 +4,7 @@ const Category = require("../models/Category");
 const authMiddleware = require("../middleware/auth");
 
 // List all categories
-router.get("/categories", authMiddleware, async (req, res) => {
+router.get("/categories", async (req, res) => {
   try {
     const categories = await Category.find();
     res.status(200).json(categories);
@@ -29,7 +29,7 @@ router.post("/categories", authMiddleware, async (req, res) => {
 });
 
 // Get a specific category
-router.get("/categories/:id", authMiddleware, async (req, res) => {
+router.get("/categories/:id", async (req, res) => {
   if (!req.params.id) {
     return res.status(400).json({ error: "Missing params." });
   }

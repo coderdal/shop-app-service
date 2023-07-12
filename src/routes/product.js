@@ -4,7 +4,7 @@ const Product = require("../models/Product");
 const authMiddleware = require("../middleware/auth");
 
 // List all products
-router.get("/products", authMiddleware, async (req, res) => {
+router.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json(products);
@@ -29,7 +29,7 @@ router.post("/products", authMiddleware, async (req, res) => {
 });
 
 // Get a specific product
-router.get("/products/:id", authMiddleware, async (req, res) => {
+router.get("/products/:id", async (req, res) => {
   if (!req.params.id) {
     return res.status(400).json({ error: "Missing params." });
   }
