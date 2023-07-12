@@ -19,6 +19,11 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
+  authorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);
