@@ -15,6 +15,20 @@ router.get("/products", async (req, res) => {
   }
 });
 
+// List latest 10 products
+router.get("/recent-products", async (req, res) => {
+  try {
+    const latestProducts = await Product.find()
+      .sort({ createdAt: -1 })
+      .limit(10);
+    res.status(200).json(latestProducts);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching latest products." });
+  }
+});
+
 // Create a new product (admin and user)
 router.post("/products", authMiddleware, async (req, res) => {
   if (!req.body.name || !req.body.price) {
