@@ -72,12 +72,21 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid username or password." });
     }
 
-    // Create a JWT
-    const token = jwt.sign({ userId: user._id }, "jwt_secret_key", {
+    // Create an access token
+    const accessToken = jwt.sign({ userId: user._id }, "jwt_secret_key", {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ token });
+    // Create a refresh token
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      "refresh_token_secret",
+      {
+        expiresIn: "12h",
+      }
+    );
+
+    res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     res.status(500).json({ error: "An error occurred during user login." });
   }
