@@ -11,7 +11,17 @@ router.post("/signup", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ error: "Missing params." });
+      return res
+        .status(400)
+        .json({ error: "Make sure you enter your username or password." });
+    }
+
+    // Check username and password minimum length
+    if (username.length < 3 || password.length < 6) {
+      return res.status(400).json({
+        error:
+          "Username must be at least 3 characters long, and password must be at least 6 characters long.",
+      });
     }
 
     // Check if the user already exists
@@ -37,7 +47,17 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ error: "Missing params." });
+      return res
+        .status(400)
+        .json({ error: "Make sure you enter your username or password." });
+    }
+
+    // Check username and password minimum length
+    if (username.length < 3 || password.length < 6) {
+      return res.status(400).json({
+        error:
+          "Username must be at least 3 characters long, and password must be at least 6 characters long.",
+      });
     }
 
     // Find the user in the database
@@ -70,7 +90,9 @@ router.get("/refresh-token", authMiddleware, async (req, res) => {
     const user = req.user;
 
     if (!user) {
-      return res.status(400).json({ error: "Missing params." });
+      return res
+        .status(400)
+        .json({ error: "Make sure you enter your username or password." });
     }
 
     // Create a new JWT and send it to the user
